@@ -1,0 +1,33 @@
+import sys
+
+from PyQt6.QtWidgets import QApplication
+
+from Core.Graph import Graph
+from Views.MainWindow import MainWindow
+
+
+def main():
+    graph = Graph(is_directed=True)
+
+    nodes_list = [0, 1, 2, 3, 4, 5, 6]
+
+    for node in nodes_list:
+        graph.add_node(node)
+
+    edges_list = [[2, 0, 12], [0, 6, 15], [6, 3, 15], [0, 5, 56], [6, 5, 65], [6, 4, 54], [1, 4, 45], [0, 1, 76]]
+
+    for i in range(0, len(edges_list)):
+        graph.add_edge(edges_list[i][0], edges_list[i][1], edges_list[i][2])
+
+    graph.get_short_route(0, 4)
+
+    app = QApplication(sys.argv)
+    main_window = MainWindow()
+    main_window.set_table(graph)
+    main_window.set_list(graph)
+    main_window.set_graph_plot(graph.draw(), graph.is_directed)
+    main_window.show()
+    app.exec()
+
+
+main()
