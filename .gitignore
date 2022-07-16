@@ -1,2 +1,5 @@
 
-Core/__pycache__/*
+/Core/__pycache__
+/Utils/__pycache__
+/Views/__pycache__
+/.idea
