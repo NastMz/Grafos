@@ -280,6 +280,9 @@ background-color: rgb(68, 113, 211);
                <property name="text">
                 <string>Matriz</string>
                </property>
+               <property name="flat">
+                <bool>false</bool>
+               </property>
               </widget>
              </item>
              <item>

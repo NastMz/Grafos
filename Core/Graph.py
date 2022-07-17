@@ -67,7 +67,7 @@ class Graph:
                         self.nodes[before_node].visited = True
                         start_neighbors = self.nodes[before_node].neighbors
                     else:
-                        short_route.pop(len(short_route)-1)
+                        short_route.pop(len(short_route) - 1)
                         counter -= 1
                         weight -= minor['weight']
                         before_node = self.nodes[short_route.__getitem__(len(short_route) - 1)['from']]
@@ -95,6 +95,11 @@ class Graph:
                 end = True
 
         if route_exist:
-            print(short_route)
+            array = '['
+            for item in short_route:
+                array += str(item['from']) + ', '
+            array += str(to_node) + ']'
+            array = '[' + array[4:]
+            print(array)
         else:
             print('No existe una ruta')

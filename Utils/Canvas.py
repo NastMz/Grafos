@@ -22,7 +22,7 @@ class Canvas(FigureCanvas):
 
         nx.draw_networkx_edge_labels(plot, pos, edge_labels=edges_weight)
 
-        print(nx.dijkstra_path(plot, source=0, target=4))
+        # print(nx.dijkstra_path(plot, source='D', target='C'))
 
         self.ax.axis('off')
         self.ax.plot()
