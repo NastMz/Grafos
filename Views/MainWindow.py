@@ -1,5 +1,7 @@
 from PyQt6 import QtCore
-from PyQt6.QtWidgets import QMainWindow, QTableWidgetItem
+from PyQt6.QtGui import QColor
+from PyQt6.QtWidgets import QMainWindow, QTableWidgetItem, QGraphicsDropShadowEffect, QHeaderView
+from prompt_toolkit.key_binding.bindings.named_commands import self_insert
 
 from Utils.Canvas import Canvas
 from Views.MainWindowView import MainWindowView
@@ -9,21 +11,33 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.dragPos = None
-        self.view = MainWindowView()
-        self.view.setupUi(MainWindow=self)
+        self.ui = MainWindowView()
+        self.ui.setupUi(self)
 
-        self.view.minimize_btn.clicked.connect(lambda: self.showMinimized())
-        self.view.close_btn.clicked.connect(lambda: self.close())
+        self.ui.minimize_btn.clicked.connect(lambda: self.showMinimized())
+        self.ui.close_btn.clicked.connect(lambda: self.close())
 
+        # REMOVE TITLE BAR
         self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WidgetAttribute.WA_TranslucentBackground)
 
-        self.view.frame_header.mouseMoveEvent = self.mouse_move
+        # DROP SHADOW EFFECT
+        self.shadow = QGraphicsDropShadowEffect(self)
+        self.shadow.setBlurRadius(20)
+        self.shadow.setXOffset(0)
+        self.shadow.setYOffset(0)
+        self.shadow.setColor(QColor(0, 0, 0, 60))
+        self.ui.dropShadowFrame.setGraphicsEffect(self.shadow)
 
-        self.view.matrix_btn.clicked.connect(lambda: self.view.stackedWidget.setCurrentWidget(self.view.matrix_page))
-        self.view.list_btn.clicked.connect(lambda: self.view.stackedWidget.setCurrentWidget(self.view.list_page))
-        self.view.graph_btn.clicked.connect(lambda: self.view.stackedWidget.setCurrentWidget(self.view.graph_page))
-        self.view.route_btn.clicked.connect(lambda: self.view.stackedWidget.setCurrentWidget(self.view.route_page))
+        self.ui.frame_header.mouseMoveEvent = self.mouse_move
+
+        self.set_option_selected(index=0)
+        self.ui.table_widget.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Fixed)
+
+        self.ui.matrix_btn.clicked.connect(lambda: self.set_option_selected(index=0))
+        self.ui.list_btn.clicked.connect(lambda: self.set_option_selected(index=1))
+        self.ui.graph_btn.clicked.connect(lambda: self.set_option_selected(index=2))
+        self.ui.route_btn.clicked.connect(lambda: self.set_option_selected(index=3))
 
     def mousePressEvent(self, event):
         self.dragPos = event.globalPosition().toPoint()
@@ -43,12 +57,12 @@ class MainWindow(QMainWindow):
             header_labels.append(str(node))
 
         # Set the count of columns and rows for the table with the number of nodes names
-        self.view.table_widget.setRowCount(len(header_labels))
-        self.view.table_widget.setColumnCount(len(header_labels))
+        self.ui.table_widget.setRowCount(len(header_labels))
+        self.ui.table_widget.setColumnCount(len(header_labels))
 
         # Set the vertical and horizontal table labels
-        self.view.table_widget.setHorizontalHeaderLabels(header_labels)
-        self.view.table_widget.setVerticalHeaderLabels(header_labels)
+        self.ui.table_widget.setHorizontalHeaderLabels(header_labels)
+        self.ui.table_widget.setVerticalHeaderLabels(header_labels)
 
         # Use the nodes to fill the table
         row = 0
@@ -56,19 +70,19 @@ class MainWindow(QMainWindow):
 
             # Set the weight of the node edges in the table
             for neighbor in nodes[node].neighbors:
-                for i in range(self.view.table_widget.columnCount()):
+                for i in range(self.ui.table_widget.columnCount()):
                     # Confirm in the node neighbor is the same of the actual column and if is the case set the weight
                     # value
-                    if str(neighbor['neighbor']) == str(self.view.table_widget.horizontalHeaderItem(i).text()):
+                    if str(neighbor['neighbor']) == str(self.ui.table_widget.horizontalHeaderItem(i).text()):
                         cell = QTableWidgetItem(str(neighbor['weight']))
-                        self.view.table_widget.setItem(row, i, cell)
+                        self.ui.table_widget.setItem(row, i, cell)
 
             # Complete the cells without valor with zero
-            for j in range(self.view.table_widget.columnCount()):
+            for j in range(self.ui.table_widget.columnCount()):
                 # If the cell don't have any value set it to zero
-                if self.view.table_widget.item(row, j) is None:
+                if self.ui.table_widget.item(row, j) is None:
                     cell = QTableWidgetItem(str(0))
-                    self.view.table_widget.setItem(row, j, cell)
+                    self.ui.table_widget.setItem(row, j, cell)
 
             # Go to next row
             row += 1
@@ -78,7 +92,39 @@ class MainWindow(QMainWindow):
             item = f'[{node}]->'
             for neighbor in graph.nodes[node].neighbors:
                 item += '[' + str(neighbor['neighbor']) + ', ' + str(neighbor['weight']) + ']->'
-            self.view.listWidget.addItem(item[:-2])
+            self.ui.listWidget.addItem(item[:-2])
 
     def set_graph_plot(self, plot, is_directed):
-        self.view.graph_img.addWidget(Canvas(plot, is_directed))
+        self.ui.graph_img.addWidget(Canvas(plot, is_directed))
+
+    def set_option_selected(self, index):
+
+        nonselected_style = "background-color: rgb(56, 58, 89); color: rgb(98, 114, 164);"
+
+        selected_style = "background-color: rgb(254, 121, 199); color: rgb(255,255,255); border-radius: 20px;"
+
+        if index == 0:
+            self.ui.stackedWidget.setCurrentWidget(self.ui.matrix_page)
+            self.ui.matrix_btn.setStyleSheet(selected_style)
+            self.ui.list_btn.setStyleSheet(nonselected_style)
+            self.ui.graph_btn.setStyleSheet(nonselected_style)
+            self.ui.route_btn.setStyleSheet(nonselected_style)
+        elif index == 1:
+            self.ui.stackedWidget.setCurrentWidget(self.ui.list_page)
+            self.ui.matrix_btn.setStyleSheet(nonselected_style)
+            self.ui.list_btn.setStyleSheet(selected_style)
+            self.ui.graph_btn.setStyleSheet(nonselected_style)
+            self.ui.route_btn.setStyleSheet(nonselected_style)
+        elif index == 2:
+            self.ui.stackedWidget.setCurrentWidget(self.ui.graph_page)
+            self.ui.matrix_btn.setStyleSheet(nonselected_style)
+            self.ui.list_btn.setStyleSheet(nonselected_style)
+            self.ui.graph_btn.setStyleSheet(selected_style)
+            self.ui.route_btn.setStyleSheet(nonselected_style)
+        elif index == 3:
+            self.ui.stackedWidget.setCurrentWidget(self.ui.route_page)
+            self.ui.matrix_btn.setStyleSheet(nonselected_style)
+            self.ui.list_btn.setStyleSheet(nonselected_style)
+            self.ui.graph_btn.setStyleSheet(nonselected_style)
+            self.ui.route_btn.setStyleSheet(selected_style)
+

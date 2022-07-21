@@ -1,9 +1,11 @@
+import re
 import sys
 
 from PyQt6.QtWidgets import QApplication
 
 from Core.Graph import Graph
 from Views.MainWindow import MainWindow
+from Views.SplashScreen import SplashScreen
 
 
 def main():
@@ -25,11 +27,8 @@ def main():
     graph.get_short_route('D', 'C')
 
     app = QApplication(sys.argv)
-    main_window = MainWindow()
-    main_window.set_table(graph)
-    main_window.set_list(graph)
-    main_window.set_graph_plot(graph.draw(), graph.is_directed)
-    main_window.show()
+    window = SplashScreen(graph, is_opening=True)
+    window.show()
     app.exec()
 
 
