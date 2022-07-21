@@ -1,30 +1,51 @@
 import re
 import sys
 
-from PyQt6.QtWidgets import QMainWindow, QApplication
+from PyQt6 import QtCore
+from PyQt6.QtGui import QColor
+from PyQt6.QtWidgets import QMainWindow, QApplication, QGraphicsDropShadowEffect
 
-from Alert import Alert
-from FormWindowView import FormWindowView
+from Views.FormWindowView import FormWindowView
+from Views.Alert import Alert
 
 
 class FormWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, splash_screen):
         QMainWindow.__init__(self)
+        self.number_nodes = None
         self.ui = FormWindowView()
         self.ui.setupUi(self)
         self.ui.stackedWidget.setCurrentIndex(0)
+        self.splashScreen = splash_screen
+
+        self.ui.minimize_btn.clicked.connect(lambda: self.showMinimized())
+        self.ui.close_btn.clicked.connect(lambda: self.close())
+
+        # REMOVE TITLE BAR
+        self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WidgetAttribute.WA_TranslucentBackground)
+
+        # DROP SHADOW EFFECT
+        self.shadow = QGraphicsDropShadowEffect(self)
+        self.shadow.setBlurRadius(20)
+        self.shadow.setXOffset(0)
+        self.shadow.setYOffset(0)
+        self.shadow.setColor(QColor(0, 0, 0, 60))
+        self.ui.dropShadowFrame.setGraphicsEffect(self.shadow)
 
         self.alert = Alert()
         self.nodes = []
         self.edges = []
+        self.directed = False
 
         self.ui.btn_dir.clicked.connect(lambda: self.set_directed(is_directed=True))
         self.ui.btn_nodir.clicked.connect(lambda: self.set_directed(is_directed=False))
         self.ui.btn_infone.clicked.connect(lambda: self.set_num_nod_edg(self.ui.nnodes.value()))
         self.ui.btn_addnamenode.clicked.connect(lambda: self.set_name_nodes(self.ui.namenode.text()))
         self.ui.btn_next.clicked.connect(lambda: self.validation_next())
-        self.ui.btn_addedge.clicked.connect(lambda: self.set_edges(self.ui.originnode.text(), self.ui
-                                                                   .destinynode.text(), self.ui.weight.value()))
+        self.ui.btn_addedge.clicked.connect(
+            lambda: self.set_edges(self.ui.originnode.text(), self.ui.destinynode.text(), self.ui.weight.value()))
+        self.ui.btn_finish.clicked.connect(lambda: self.open_main_window())
 
     def set_directed(self, is_directed):
         self.directed = is_directed
@@ -71,25 +92,19 @@ class FormWindow(QMainWindow):
             self.alert.set_message("Rellene todos los campos.")
             self.alert.show()
         elif from_node in self.nodes and to_node in self.nodes:
-            edge = "(" + str(from_node) + ", " + str(to_node) + ", " + str(weight) + ")"
+            edge = "( " + str(from_node) + " , " + str(to_node) + " , " + str(weight) + " )"
             flag = False
             for item in self.edges:
                 f_node = item[1]
                 t_node = item[4]
-                print(f_node)
-                print(t_node)
                 if from_node == f_node and to_node == t_node:
-                    self.alert.set_message("La arista ya está en la lista.")
+                    self.alert.set_message("La arista ya fue ingresada a la lista.")
                     self.alert.show()
                     flag = True
                     break
             if not flag:
                 self.edges.append(edge)
                 self.ui.list_edges.addItem(edge)
-                if not self.directed:
-                    reverse_edge = "(" + str(to_node) + ", " + str(from_node) + ", " + str(weight) + ")"
-                    self.edges.append(reverse_edge)
-                    self.ui.list_edges.addItem(reverse_edge)
                 self.ui.originnode.setText("")
                 self.ui.destinynode.setText("")
                 self.ui.weight.setValue(0)
@@ -97,8 +112,8 @@ class FormWindow(QMainWindow):
             self.alert.set_message("Uno o más nodos no pertenecen a la lista de nodos ingresado.")
             self.alert.show()
 
-
-app = QApplication(sys.argv)
-window = FormWindow()
-window.show()
-app.exec()
+    def open_main_window(self):
+        self.splashScreen.__init__(is_opening=False)
+        self.splashScreen.set_graph(is_directed=self.directed, nodes=self.nodes, edges=self.edges)
+        self.splashScreen.show()
+        self.close()

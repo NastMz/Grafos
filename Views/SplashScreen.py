@@ -5,21 +5,23 @@ from PyQt6 import QtCore
 from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import QMainWindow, QGraphicsDropShadowEffect
 
+from Core.Graph import Graph
+from Views.FormWindow import FormWindow
 from Views.MainWindow import MainWindow
 from Views.SplashScreenView import SplashScreenView
 
-# ==> GLOBALS
-counter = 0
-
 
 class SplashScreen(QMainWindow):
-    def __init__(self, graph, is_opening):
+    def __init__(self, is_opening):
         QMainWindow.__init__(self)
+        self.graph = None
         self.ui = SplashScreenView()
         self.ui.setupUi(self)
+        self.isOpening = is_opening
 
-        self.graph = graph
         self.main = MainWindow()
+        self.form = FormWindow(self)
+        self.counter = 0
 
         # UI ==> INTERFACE CODES
         ########################################################################
@@ -40,7 +42,7 @@ class SplashScreen(QMainWindow):
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.progress)
 
-        if not is_opening:
+        if not self.isOpening:
             # TIMER IN MILLISECONDS
             self.timer.start(25)
 
@@ -64,6 +66,7 @@ class SplashScreen(QMainWindow):
             QtCore.QTimer.singleShot(2500,
                                      lambda: self.ui.label_description.setText(
                                          "<strong>CARGANDO</strong> INTERFAZ DE USUARIO"))
+            self.isOpening = False
         else:
             # TIMER IN MILLISECONDS
             self.timer.start(20)
@@ -77,35 +80,41 @@ class SplashScreen(QMainWindow):
                                      lambda: self.ui.label_description.setText(
                                          "<strong>CARGANDO</strong> INTERFAZ DE USUARIO"))
 
-        # SHOW ==> MAIN WINDOW
-        ########################################################################
-        # self.show()
-        # ==> END #
+        self.close()
 
     # ==> APP FUNCTIONS
     ########################################################################
     def progress(self):
-        global counter
-
         # SET VALUE TO PROGRESS BAR
-        self.ui.progressBar.setValue(counter)
+        self.ui.progressBar.setValue(self.counter)
 
         # CLOSE SPLASH SCREE AND OPEN APP
 
-        if counter > 100:
+        if self.counter > 100:
             # STOP TIMER
             self.timer.stop()
 
-            # # SHOW MAIN WINDOW
-            self.main.set_table(self.graph)
-            self.main.set_list(self.graph)
-            self.main.set_graph_plot(self.graph.draw(), self.graph.is_directed)
-            self.main.show()
-
-            # CLOSE SPLASH SCREEN
+            if not self.isOpening:
+                # # SHOW MAIN WINDOW
+                self.main.set_table(self.graph)
+                self.main.set_list(self.graph)
+                self.main.set_graph_plot(self.graph.draw(), self.graph.is_directed)
+                self.main.show()
+            else:
+                self.form.show()
             self.close()
 
         # INCREASE COUNTER
-        counter += 1
+        self.counter += 1
 
+    def set_graph(self, is_directed, nodes, edges):
+        self.graph = Graph(is_directed=is_directed)
 
+        for node in nodes:
+            self.graph.add_node(node)
+
+        for edge in edges:
+            e = edge.split()
+            self.graph.add_edge(e[1], e[3], e[5])
+
+        # graph.get_short_route('D', 'C')

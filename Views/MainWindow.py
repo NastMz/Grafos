@@ -75,7 +75,7 @@ class MainWindow(QMainWindow):
                     # value
                     if str(neighbor['neighbor']) == str(self.ui.table_widget.horizontalHeaderItem(i).text()):
                         cell = QTableWidgetItem(str(neighbor['weight']))
-                        self.ui.table_widget.setItem(row, i, cell)
+                        self.ui.table_widget.setItem(i, row, cell)
 
             # Complete the cells without valor with zero
             for j in range(self.ui.table_widget.columnCount()):
