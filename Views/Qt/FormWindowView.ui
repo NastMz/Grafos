@@ -285,7 +285,7 @@ color: rgb(98, 114, 164);
 }</string>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="welcome_page">
              <property name="styleSheet">

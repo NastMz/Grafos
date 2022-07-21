@@ -81,7 +81,7 @@ class FormWindow(QMainWindow):
         if not validate:
             self.alert.set_message("Ingrese el nombre del nodo.")
             self.alert.show()
-        elif len(self.nodes) < self.number_nodes and name_node not in self.nodes:
+        elif len(self.nodes) <= self.number_nodes and name_node not in self.nodes:
             self.nodes.append(name_node)
             self.ui.namenode.setText("")
             self.ui.list_namenode.addItem(name_node)
@@ -90,9 +90,14 @@ class FormWindow(QMainWindow):
             self.alert.set_message("El nodo '" + name_node + "' ya fue ingresado.")
             self.alert.show()
         else:
-            self.ui.btn_addnamenode.setEnabled(False)
             self.alert.set_message("No puede superar el número de nodos ingresados.")
             self.alert.show()
+        if len(self.nodes) < self.number_nodes:
+            self.ui.btn_addnamenode.setEnabled(True)
+            self.ui.btn_addnamenode.setStyleSheet("background-color: rgb(254, 121, 199);")
+        else:
+            self.ui.btn_addnamenode.setEnabled(False)
+            self.ui.btn_addnamenode.setStyleSheet("background-color:  rgb(214,101,169);")
         self.ui.namenode.setFocus()
 
     def validation_next(self):
@@ -149,3 +154,6 @@ class FormWindow(QMainWindow):
                 self.edges.remove(item.text())
                 self.ui.list_edges.takeItem(self.ui.list_edges.row(item))
             self.ui.list_edges.clearSelection()
+        if len(self.nodes) < self.number_nodes:
+            self.ui.btn_addnamenode.setEnabled(True)
+            self.ui.btn_addnamenode.setStyleSheet("background-color: rgb(254, 121, 199);")
