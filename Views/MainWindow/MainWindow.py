@@ -1,10 +1,9 @@
 from PyQt6 import QtCore
 from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import QMainWindow, QTableWidgetItem, QGraphicsDropShadowEffect, QHeaderView
-from prompt_toolkit.key_binding.bindings.named_commands import self_insert
 
 from Utils.Canvas import Canvas
-from Views.MainWindowView import MainWindowView
+from Views.MainWindow.MainWindowView import MainWindowView
 
 
 class MainWindow(QMainWindow):

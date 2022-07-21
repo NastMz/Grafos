@@ -1,9 +1,7 @@
-import sys
-
 from PyQt6 import QtCore
 from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import QMainWindow, QGraphicsDropShadowEffect
-from Views.AlertView import AlertView
+from Views.Alert.AlertView import AlertView
 
 
 class Alert(QMainWindow):

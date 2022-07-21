@@ -1,14 +1,13 @@
 # SPLASH SCREEN
-import re
 
 from PyQt6 import QtCore
 from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import QMainWindow, QGraphicsDropShadowEffect
 
 from Core.Graph import Graph
-from Views.FormWindow import FormWindow
-from Views.MainWindow import MainWindow
-from Views.SplashScreenView import SplashScreenView
+from Views.FormWindow.FormWindow import FormWindow
+from Views.MainWindow.MainWindow import MainWindow
+from Views.SplashScreen.SplashScreenView import SplashScreenView
 
 
 class SplashScreen(QMainWindow):

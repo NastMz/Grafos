@@ -1,12 +1,11 @@
 import re
-import sys
 
 from PyQt6 import QtCore
 from PyQt6.QtGui import QColor
-from PyQt6.QtWidgets import QMainWindow, QApplication, QGraphicsDropShadowEffect
+from PyQt6.QtWidgets import QMainWindow, QGraphicsDropShadowEffect
 
-from Views.FormWindowView import FormWindowView
-from Views.Alert import Alert
+from Views.FormWindow.FormWindowView import FormWindowView
+from Views.Alert.Alert import Alert
 
 
 class FormWindow(QMainWindow):
