@@ -4,8 +4,8 @@ from PyQt6 import QtCore
 from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import QMainWindow, QGraphicsDropShadowEffect
 
-from Views.FormWindow.FormWindowView import FormWindowView
 from Views.Alert.Alert import Alert
+from Views.FormWindow.FormWindowView import FormWindowView
 
 
 class FormWindow(QMainWindow):

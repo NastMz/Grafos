@@ -1,10 +1,7 @@
-import re
 import sys
 
 from PyQt6.QtWidgets import QApplication
 
-from Core.Graph import Graph
-from Views.MainWindow import MainWindow
 from Views.SplashScreen.SplashScreen import SplashScreen
 
 
