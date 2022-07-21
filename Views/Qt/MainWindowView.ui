@@ -552,7 +552,7 @@ QLabel {
                 <string notr="true"/>
                </property>
                <property name="currentIndex">
-                <number>3</number>
+                <number>1</number>
                </property>
                <widget class="QWidget" name="matrix_page">
                 <layout class="QVBoxLayout" name="verticalLayout" stretch="1,9">
@@ -844,7 +844,8 @@ QTableWidget QTableCornerButton::section {
                        <bool>false</bool>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">color: rgb(98, 114, 164);</string>
+                       <string notr="true">color: rgb(98, 114, 164);
+background-color: rgb(56, 58, 89);</string>
                       </property>
                       <property name="frameShape">
                        <enum>QFrame::NoFrame</enum>
@@ -1241,9 +1242,6 @@ QPushButton:hover{
                               <weight>75</weight>
                               <bold>true</bold>
                              </font>
-                            </property>
-                            <property name="cursor">
-                             <cursorShape>PointingHandCursor</cursorShape>
                             </property>
                             <property name="text">
                              <string>Calcular</string>

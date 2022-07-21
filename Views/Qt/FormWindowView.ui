@@ -285,7 +285,7 @@ color: rgb(98, 114, 164);
 }</string>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="welcome_page">
              <property name="styleSheet">
@@ -1695,8 +1695,73 @@ QPushButton:hover{
                               <widget class="QListWidget" name="list_namenode">
                                <property name="styleSheet">
                                 <string notr="true">background-color: rgb(56, 58, 89);
-color: rgb(255, 255, 255);</string>
+color: rgb(98, 114, 164);</string>
                                </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QFrame" name="remove_frame">
+                               <property name="styleSheet">
+                                <string notr="true">QPushButton{
+	background-color: rgb(254, 121, 199);
+	color:#fff;
+	border: none;
+ 	border-radius: 10px;
+    font-weight: Bold;
+	font-family: Roboto Black;
+	min-width: 50px;
+	min-height: 20px;
+	cursor: pointer;
+}
+
+QPushButton:hover{
+	background-color: rgb(214,101,169);
+	color: rgb(255, 255, 255);
+	border-radius: 10px;
+	font-weight: Bold
+}</string>
+                               </property>
+                               <property name="frameShape">
+                                <enum>QFrame::StyledPanel</enum>
+                               </property>
+                               <property name="frameShadow">
+                                <enum>QFrame::Raised</enum>
+                               </property>
+                               <layout class="QHBoxLayout" name="horizontalLayout_31">
+                                <item>
+                                 <spacer name="horizontalSpacer_30">
+                                  <property name="orientation">
+                                   <enum>Qt::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                                <item>
+                                 <widget class="QPushButton" name="remove_btn">
+                                  <property name="text">
+                                   <string>Quitar</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item>
+                                 <spacer name="horizontalSpacer_31">
+                                  <property name="orientation">
+                                   <enum>Qt::Horizontal</enum>
+                                  </property>
+                                  <property name="sizeHint" stdset="0">
+                                   <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                   </size>
+                                  </property>
+                                 </spacer>
+                                </item>
+                               </layout>
                               </widget>
                              </item>
                             </layout>

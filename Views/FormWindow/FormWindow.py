@@ -97,8 +97,9 @@ class FormWindow(QMainWindow):
             edge = "( " + str(from_node) + " , " + str(to_node) + " , " + str(weight) + " )"
             flag = False
             for item in self.edges:
-                f_node = item[1]
-                t_node = item[4]
+                e = item.split()
+                f_node = e[1]
+                t_node = e[3]
                 if from_node == f_node and to_node == t_node:
                     self.alert.set_message("La arista ya fue ingresada a la lista.")
                     self.alert.show()

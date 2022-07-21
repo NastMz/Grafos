@@ -450,7 +450,8 @@ class MainWindowView(object):
         self.listWidget.setFont(font)
         self.listWidget.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
         self.listWidget.setAutoFillBackground(False)
-        self.listWidget.setStyleSheet("color: rgb(98, 114, 164);")
+        self.listWidget.setStyleSheet("color: rgb(98, 114, 164);\n"
+"background-color: rgb(56, 58, 89);")
         self.listWidget.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.listWidget.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
         self.listWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
@@ -629,7 +630,6 @@ class MainWindowView(object):
         font.setBold(True)
         font.setWeight(75)
         self.pushButton.setFont(font)
-        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.pushButton.setObjectName("pushButton")
         self.verticalLayout_10.addWidget(self.pushButton)
         self.horizontalLayout_9.addWidget(self.frame)
@@ -651,7 +651,7 @@ class MainWindowView(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
