@@ -11,6 +11,7 @@ from Views.FormWindow.FormWindowView import FormWindowView
 class FormWindow(QMainWindow):
     def __init__(self, splash_screen):
         QMainWindow.__init__(self)
+        self.dragPos = None
         self.number_nodes = None
         self.ui = FormWindowView()
         self.ui.setupUi(self)
@@ -32,6 +33,8 @@ class FormWindow(QMainWindow):
         self.shadow.setColor(QColor(0, 0, 0, 60))
         self.ui.dropShadowFrame.setGraphicsEffect(self.shadow)
 
+        self.ui.frame_header.mouseMoveEvent = self.mouse_move
+
         self.alert = Alert()
         self.nodes = []
         self.edges = []
@@ -45,9 +48,21 @@ class FormWindow(QMainWindow):
         self.ui.btn_addedge.clicked.connect(
             lambda: self.set_edges(self.ui.originnode.text(), self.ui.destinynode.text(), self.ui.weight.value()))
         self.ui.btn_finish.clicked.connect(lambda: self.open_main_window())
+
         self.ui.page0_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.welcome_page))
         self.ui.page1_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.graphinfo_page))
         self.ui.page2_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.infonode_page))
+
+        self.ui.remove_btn.clicked.connect(lambda: self.remove_item(2))
+        self.ui.remove_btn_2.clicked.connect(lambda: self.remove_item(3))
+
+    def mousePressEvent(self, event):
+        self.dragPos = event.globalPosition().toPoint()
+
+    def mouse_move(self, event):
+        self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos)
+        self.dragPos = event.globalPosition().toPoint()
+        event.accept()
 
     def set_directed(self, is_directed):
         self.directed = is_directed
@@ -120,3 +135,15 @@ class FormWindow(QMainWindow):
         self.splashScreen.set_graph(is_directed=self.directed, nodes=self.nodes, edges=self.edges)
         self.splashScreen.show()
         self.close()
+
+    def remove_item(self, page_index):
+        if page_index == 2:
+            for item in self.ui.list_namenode.selectedItems():
+                self.nodes.remove(item.text())
+                self.ui.list_namenode.takeItem(self.ui.list_namenode.row(item))
+            self.ui.list_namenode.clearSelection()
+        if page_index == 3:
+            for item in self.ui.list_edges.selectedItems():
+                self.edges.remove(item.text())
+                self.ui.list_edges.takeItem(self.ui.list_edges.row(item))
+            self.ui.list_edges.clearSelection()
