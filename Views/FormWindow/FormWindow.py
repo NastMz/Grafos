@@ -93,6 +93,7 @@ class FormWindow(QMainWindow):
             self.ui.btn_addnamenode.setEnabled(False)
             self.alert.set_message("No puede superar el número de nodos ingresados.")
             self.alert.show()
+        self.ui.namenode.setFocus()
 
     def validation_next(self):
         if len(self.nodes) < self.number_nodes:
@@ -129,6 +130,7 @@ class FormWindow(QMainWindow):
         else:
             self.alert.set_message("Uno o más nodos no pertenecen a la lista de nodos ingresado.")
             self.alert.show()
+        self.ui.originnode.setFocus()
 
     def open_main_window(self):
         self.splashScreen.__init__(is_opening=False)
