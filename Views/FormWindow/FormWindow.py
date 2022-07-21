@@ -45,6 +45,9 @@ class FormWindow(QMainWindow):
         self.ui.btn_addedge.clicked.connect(
             lambda: self.set_edges(self.ui.originnode.text(), self.ui.destinynode.text(), self.ui.weight.value()))
         self.ui.btn_finish.clicked.connect(lambda: self.open_main_window())
+        self.ui.page0_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.welcome_page))
+        self.ui.page1_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.graphinfo_page))
+        self.ui.page2_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.infonode_page))
 
     def set_directed(self, is_directed):
         self.directed = is_directed

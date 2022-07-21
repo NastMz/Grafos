@@ -1,0 +1,5 @@
+pink: rgb(254, 121, 199);
+background-color: rgb(56, 58, 89);
+white: rgb(255, 255, 255);
+gray: rgb(98, 114, 164);
+light-background-color: rgb(67, 69, 106)

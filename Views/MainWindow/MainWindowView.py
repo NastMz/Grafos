@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '.\MainWindowView.ui'
+# Form implementation generated from reading ui file '.\Qt\MainWindowView.ui'
 #
 # Created by: PyQt6 UI code generator 6.3.1
 #
@@ -537,7 +537,7 @@ class MainWindowView(object):
 "QPushButton:hover{\n"
 "    background-color: rgb(214,101,169);\n"
 "    color: rgb(255, 255, 255);\n"
-"    border-radius: 20px;\n"
+"    border-radius: 15px;\n"
 "    font-weight: Bold\n"
 "}")
         self.form_container_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -629,6 +629,7 @@ class MainWindowView(object):
         font.setBold(True)
         font.setWeight(75)
         self.pushButton.setFont(font)
+        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.pushButton.setObjectName("pushButton")
         self.verticalLayout_10.addWidget(self.pushButton)
         self.horizontalLayout_9.addWidget(self.frame)

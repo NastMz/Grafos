@@ -1009,7 +1009,7 @@ QPushButton{
 QPushButton:hover{
 	background-color: rgb(214,101,169);
 	color: rgb(255, 255, 255);
-	border-radius: 20px;
+	border-radius: 15px;
 	font-weight: Bold
 }</string>
                    </property>
@@ -1241,6 +1241,9 @@ QPushButton:hover{
                               <weight>75</weight>
                               <bold>true</bold>
                              </font>
+                            </property>
+                            <property name="cursor">
+                             <cursorShape>PointingHandCursor</cursorShape>
                             </property>
                             <property name="text">
                              <string>Calcular</string>
