@@ -39,51 +39,51 @@ class Graph:
         weight = 0
 
         self.nodes[from_node].visited = True
-        start_neighbors = self.nodes[from_node].neighbors
+        neighbors = self.nodes[from_node].neighbors
 
         short_route = [{'weight': weight, 'from': '-', 'iteration': counter}]
 
         end = False
         route_exist = False
 
+        before_node = from_node
+
         while not end:
-            if start_neighbors:
+            if neighbors:
                 minor = None
-                for neighbor in start_neighbors:
+                for neighbor in neighbors:
                     if not self.nodes[neighbor['node']].visited:
-                        if minor is None:
-                            minor = neighbor
-                        if neighbor['weight'] < minor['weight']:
+                        if minor is None or neighbor['weight'] < minor['weight']:
                             minor = neighbor
                 if minor is not None:
+                    counter += 1
+                    weight += int(minor['weight'])
+                    short_route.append({'weight': weight, 'from': before_node, 'iteration': counter})
+                    self.nodes[before_node].visited = True
+                    before_node = minor['node']
+                    neighbors = self.nodes[before_node].neighbors
                     if minor['node'] == to_node:
                         end = True
                         route_exist = True
-                    else:
-                        counter += 1
-                        weight += int(minor['weight'])
-                        short_route.append({'weight': weight, 'from': minor['node'], 'iteration': counter})
-                        self.nodes[minor['node']].visited = True
-                        before_node = minor['node']
-                        start_neighbors = self.nodes[before_node].neighbors
             elif not route_exist:
                 if len(short_route) > 2:
                     short_route.pop()
                     before_node = short_route[-1]['from']
-                    start_neighbors = self.nodes[before_node].neighbors
+                    neighbors = self.nodes[before_node].neighbors
                 else:
                     end = True
 
         weight = '-'
         if route_exist:
-            array = f'[{from_node}, '
+            array = '['
             for item in short_route:
                 if item['from'] != '-':
                     array += str(item['from']) + ', '
             array += str(to_node) + ']'
             weight = short_route[-1]['weight']
+            print(short_route)
         else:
-            array = 'No existe una ruta'
+            array = f'No existe una ruta de {from_node} a {to_node}'
 
         self.reset_graph()
         return array, weight

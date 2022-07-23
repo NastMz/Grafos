@@ -136,7 +136,5 @@ class MainWindow(QMainWindow):
 
     def calculate_short_route(self, from_node, to_node):
         short_route, weight = self.graph.get_short_route(from_node, to_node)
-        self.ui.route_text.setText('')
-        self.ui.weight_text.setText('')
         self.ui.route_text.setText(str(short_route))
         self.ui.weight_text.setText(str(weight))
