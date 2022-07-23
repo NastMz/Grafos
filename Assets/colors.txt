@@ -1,6 +1,6 @@
-pink: rgb(254, 121, 199);
-background-color: rgb(56, 58, 89);
-white: rgb(255, 255, 255);
-gray: rgb(98, 114, 164);
-light-background-color: rgb(67, 69, 106)
-dark-pink:  rgb(214,101,169);
+pink: rgb(254, 121, 199);	#fe79c7
+background-color: rgb(56, 58, 89);	#383a59
+white: rgb(255, 255, 255);	#ffffff
+gray: rgb(98, 114, 164);	#6272a4
+light-background-color: rgb(67, 69, 106); #43456a
+dark-pink:  rgb(214,101,169); #d665a9
