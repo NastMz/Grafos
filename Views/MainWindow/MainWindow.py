@@ -1,4 +1,5 @@
 from PyQt6 import QtCore
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import QMainWindow, QTableWidgetItem, QGraphicsDropShadowEffect, QHeaderView
 
@@ -12,6 +13,7 @@ class MainWindow(QMainWindow):
         self.dragPos = None
         self.ui = MainWindowView()
         self.ui.setupUi(self)
+        self.graph = None
 
         self.ui.minimize_btn.clicked.connect(lambda: self.showMinimized())
         self.ui.close_btn.clicked.connect(lambda: self.close())
@@ -31,12 +33,15 @@ class MainWindow(QMainWindow):
         self.ui.frame_header.mouseMoveEvent = self.mouse_move
 
         self.set_option_selected(index=0)
-        self.ui.table_widget.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Fixed)
+        self.ui.table_widget.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
 
         self.ui.matrix_btn.clicked.connect(lambda: self.set_option_selected(index=0))
         self.ui.list_btn.clicked.connect(lambda: self.set_option_selected(index=1))
         self.ui.graph_btn.clicked.connect(lambda: self.set_option_selected(index=2))
         self.ui.route_btn.clicked.connect(lambda: self.set_option_selected(index=3))
+
+        self.ui.btn_calculate.clicked.connect(lambda: self.calculate_short_route(str(self.ui.from_option.currentText()),
+                                                                                 str(self.ui.to_option.currentText())))
 
     def mousePressEvent(self, event):
         self.dragPos = event.globalPosition().toPoint()
@@ -46,9 +51,9 @@ class MainWindow(QMainWindow):
         self.dragPos = event.globalPosition().toPoint()
         event.accept()
 
-    def set_table(self, graph):
+    def set_table(self):
         # Get the nodes from the graph
-        nodes = graph.nodes
+        nodes = self.graph.nodes
 
         # Get the nodes names for the table labels
         header_labels = []
@@ -72,8 +77,9 @@ class MainWindow(QMainWindow):
                 for i in range(self.ui.table_widget.columnCount()):
                     # Confirm in the node neighbor is the same of the actual column and if is the case set the weight
                     # value
-                    if str(neighbor['neighbor']) == str(self.ui.table_widget.horizontalHeaderItem(i).text()):
+                    if str(neighbor['node']) == str(self.ui.table_widget.horizontalHeaderItem(i).text()):
                         cell = QTableWidgetItem(str(neighbor['weight']))
+                        cell.setTextAlignment(Qt.AlignmentFlag.AlignHCenter)
                         self.ui.table_widget.setItem(i, row, cell)
 
             # Complete the cells without valor with zero
@@ -81,20 +87,21 @@ class MainWindow(QMainWindow):
                 # If the cell don't have any value set it to zero
                 if self.ui.table_widget.item(row, j) is None:
                     cell = QTableWidgetItem(str(0))
+                    cell.setTextAlignment(Qt.AlignmentFlag.AlignHCenter)
                     self.ui.table_widget.setItem(row, j, cell)
 
             # Go to next row
             row += 1
 
-    def set_list(self, graph):
-        for node in graph.nodes:
+    def set_list(self):
+        for node in self.graph.nodes:
             item = f'[{node}]->'
-            for neighbor in graph.nodes[node].neighbors:
-                item += '[' + str(neighbor['neighbor']) + ', ' + str(neighbor['weight']) + ']->'
+            for neighbor in self.graph.nodes[node].neighbors:
+                item += '[' + str(neighbor['node']) + ', ' + str(neighbor['weight']) + ']->'
             self.ui.listWidget.addItem(item[:-2])
 
-    def set_graph_plot(self, plot, is_directed):
-        self.ui.graph_img.addWidget(Canvas(plot, is_directed))
+    def set_graph_plot(self):
+        self.ui.graph_img.addWidget(Canvas(self.graph.draw(), self.graph.is_directed))
 
     def set_option_selected(self, index):
 
@@ -127,3 +134,8 @@ class MainWindow(QMainWindow):
             self.ui.graph_btn.setStyleSheet(nonselected_style)
             self.ui.route_btn.setStyleSheet(selected_style)
 
+    def calculate_short_route(self, from_node, to_node):
+        short_route, weight = self.graph.get_short_route(from_node, to_node)
+        _translate = QtCore.QCoreApplication.translate
+        self.ui.route_label.setText(_translate("MainWindow", f'Ruta: {short_route}'))
+        self.ui.weight_label.setText(_translate("MainWindow", f'Peso: {weight}'))

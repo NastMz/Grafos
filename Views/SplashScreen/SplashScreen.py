@@ -43,7 +43,7 @@ class SplashScreen(QMainWindow):
 
         if not self.isOpening:
             # TIMER IN MILLISECONDS
-            self.timer.start(25)
+            self.timer.start(14)
 
             # CHANGE DESCRIPTION
 
@@ -54,28 +54,28 @@ class SplashScreen(QMainWindow):
             QtCore.QTimer.singleShot(1000, lambda: self.ui.label_description.setText(
                 "<strong>CARGANDO</strong> MATRIZ DE ADYACENCIA"))
 
-            QtCore.QTimer.singleShot(1500,
+            QtCore.QTimer.singleShot(1100,
                                      lambda: self.ui.label_description.setText(
                                          "<strong>CARGANDO</strong> LISTA DE ADYACENCIA"))
 
-            QtCore.QTimer.singleShot(2000,
+            QtCore.QTimer.singleShot(1200,
                                      lambda: self.ui.label_description.setText(
                                          "<strong>CARGANDO</strong> GRAFICO"))
 
-            QtCore.QTimer.singleShot(2500,
+            QtCore.QTimer.singleShot(1300,
                                      lambda: self.ui.label_description.setText(
                                          "<strong>CARGANDO</strong> INTERFAZ DE USUARIO"))
             self.isOpening = False
         else:
             # TIMER IN MILLISECONDS
-            self.timer.start(20)
+            self.timer.start(11)
 
             # CHANGE DESCRIPTION
 
             # Initial Text
             self.ui.label_description.setText("<STRONG> HERRAMIENTA</STRONG> DE VISUALIZACIÓN DE GRAFOS")
 
-            QtCore.QTimer.singleShot(1500,
+            QtCore.QTimer.singleShot(1000,
                                      lambda: self.ui.label_description.setText(
                                          "<strong>CARGANDO</strong> INTERFAZ DE USUARIO"))
 
@@ -95,9 +95,12 @@ class SplashScreen(QMainWindow):
 
             if not self.isOpening:
                 # # SHOW MAIN WINDOW
-                self.main.set_table(self.graph)
-                self.main.set_list(self.graph)
-                self.main.set_graph_plot(self.graph.draw(), self.graph.is_directed)
+                self.main.graph = self.graph
+                self.main.set_table()
+                self.main.set_list()
+                self.main.set_graph_plot()
+                self.main.ui.from_option.addItems(self.graph.nodes)
+                self.main.ui.to_option.addItems(self.graph.nodes)
                 self.main.show()
             else:
                 self.form.show()
@@ -116,4 +119,3 @@ class SplashScreen(QMainWindow):
             e = edge.split()
             self.graph.add_edge(e[1], e[3], e[5])
 
-        # graph.get_short_route('D', 'C')

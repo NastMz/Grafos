@@ -16,9 +16,9 @@ class Graph:
 
     def add_edge(self, from_node, to_node, edge_weight=1):
         if from_node in self.nodes and to_node in self.nodes:
-            self.nodes[from_node].add_neighbor({"neighbor": to_node, "weight": edge_weight})
+            self.nodes[from_node].add_neighbor({"node": to_node, "weight": edge_weight})
             if not self.is_directed:
-                self.nodes[to_node].add_neighbor({"neighbor": from_node, "weight": edge_weight})
+                self.nodes[to_node].add_neighbor({"node": from_node, "weight": edge_weight})
 
     def draw(self):
         G = nx.DiGraph()
@@ -27,7 +27,7 @@ class Graph:
         for node in self.nodes:
             nodes.append(node)
             for neighbor in self.nodes[node].neighbors:
-                edges.append((node, neighbor['neighbor'], neighbor['weight']))
+                edges.append((node, neighbor['node'], neighbor['weight']))
 
         G.add_nodes_from(nodes)
         G.add_weighted_edges_from(edges)
@@ -46,59 +46,42 @@ class Graph:
         end = False
         route_exist = False
 
-        before_node = from_node
-
         while not end:
             if start_neighbors:
                 minor = None
                 for neighbor in start_neighbors:
-                    if not self.nodes[neighbor['neighbor']].visited:
+                    if not self.nodes[neighbor['node']].visited:
                         if minor is None:
                             minor = neighbor
                         if neighbor['weight'] < minor['weight']:
                             minor = neighbor
                 if minor is not None:
-                    counter += 1
-                    weight += minor['weight']
-                    short_route.append({'weight': weight, 'from': before_node, 'iteration': counter})
-                    if minor['neighbor'] != before_node:
-                        before_node = minor['neighbor']
-                        self.nodes[before_node].visited = True
-                        start_neighbors = self.nodes[before_node].neighbors
-                    else:
-                        short_route.pop(len(short_route) - 1)
-                        counter -= 1
-                        weight -= minor['weight']
-                        before_node = self.nodes[short_route.__getitem__(len(short_route) - 1)['from']]
-                        start_neighbors = self.nodes[short_route.__getitem__(len(short_route) - 1)['from']].neighbors
-                    if before_node == to_node:
+                    if minor['node'] == to_node:
                         end = True
                         route_exist = True
+                    else:
+                        counter += 1
+                        weight += int(minor['weight'])
+                        short_route.append({'weight': weight, 'from': minor['node'], 'iteration': counter})
+                        self.nodes[minor['node']].visited = True
+                        before_node = minor['node']
+                        start_neighbors = self.nodes[before_node].neighbors
+            elif not route_exist:
+                if len(short_route) > 2:
+                    short_route.pop()
+                    before_node = short_route[-1]['from']
+                    start_neighbors = self.nodes[before_node].neighbors
                 else:
-                    counter -= 1
-                    for neighbor in self.nodes[short_route.__getitem__(len(short_route) - 1)['from']].neighbors:
-                        if before_node == neighbor['neighbor']:
-                            weight -= neighbor['weight']
-                    before_node = self.nodes[short_route.__getitem__(len(short_route) - 1)['from']].id
-                    start_neighbors = self.nodes[short_route.__getitem__(len(short_route) - 1)['from']].neighbors
-                    short_route.pop(len(short_route) - 1)
-            else:
-                counter -= 1
-                for neighbor in self.nodes[short_route.__getitem__(len(short_route) - 1)['from']].neighbors:
-                    if before_node == neighbor['neighbor']:
-                        weight -= neighbor['weight']
-                before_node = self.nodes[short_route.__getitem__(len(short_route) - 1)['from']].id
-                start_neighbors = self.nodes[short_route.__getitem__(len(short_route) - 1)['from']].neighbors
-                short_route.pop(len(short_route) - 1)
-            if len(short_route) <= 1:
-                end = True
+                    end = True
 
+        weight = '-'
         if route_exist:
-            array = '['
+            array = f'[{from_node}, '
             for item in short_route:
-                array += str(item['from']) + ', '
+                if item['from'] != '-':
+                    array += str(item['from']) + ', '
             array += str(to_node) + ']'
-            array = '[' + array[4:]
-            print(array)
+            weight = short_route[-1]['weight']
         else:
-            print('No existe una ruta')
+            array = 'No existe una ruta'
+        return array, weight
