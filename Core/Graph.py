@@ -84,4 +84,10 @@ class Graph:
             weight = short_route[-1]['weight']
         else:
             array = 'No existe una ruta'
+
+        self.reset_graph()
         return array, weight
+
+    def reset_graph(self):
+        for node in self.nodes:
+            self.nodes[node].visited = False
