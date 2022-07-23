@@ -12,7 +12,7 @@ class FormWindow(QMainWindow):
     def __init__(self, splash_screen):
         QMainWindow.__init__(self)
         self.dragPos = None
-        self.number_nodes = None
+        self.number_nodes = 0
         self.ui = FormWindowView()
         self.ui.setupUi(self)
         self.ui.stackedWidget.setCurrentIndex(0)
@@ -43,15 +43,16 @@ class FormWindow(QMainWindow):
         self.ui.btn_dir.clicked.connect(lambda: self.set_directed(is_directed=True))
         self.ui.btn_nodir.clicked.connect(lambda: self.set_directed(is_directed=False))
         self.ui.btn_infone.clicked.connect(lambda: self.set_num_nod_edg(self.ui.nnodes.value()))
-        self.ui.btn_addnamenode.clicked.connect(lambda: self.set_name_nodes(self.ui.namenode.text()))
+        self.ui.btn_addnamenode.clicked.connect(lambda: self.set_name_nodes(str(self.ui.namenode.text())))
         self.ui.btn_next.clicked.connect(lambda: self.validation_next())
         self.ui.btn_addedge.clicked.connect(
-            lambda: self.set_edges(self.ui.originnode.text(), self.ui.destinynode.text(), self.ui.weight.value()))
+            lambda: self.set_edges(str(self.ui.originnode.currentText()), str(self.ui.destinynode.currentText()),
+                                   self.ui.weight.value()))
         self.ui.btn_finish.clicked.connect(lambda: self.open_main_window())
 
-        self.ui.page0_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.welcome_page))
-        self.ui.page1_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.graphinfo_page))
-        self.ui.page2_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.infonode_page))
+        self.ui.page0_btn.clicked.connect(lambda: self.reset_forms(1))
+        self.ui.page1_btn.clicked.connect(lambda: self.reset_forms(2))
+        self.ui.page2_btn.clicked.connect(lambda: self.reset_forms(3))
 
         self.ui.remove_btn.clicked.connect(lambda: self.remove_item(2))
         self.ui.remove_btn_2.clicked.connect(lambda: self.remove_item(3))
@@ -70,11 +71,7 @@ class FormWindow(QMainWindow):
 
     def set_num_nod_edg(self, num_nodes):
         self.number_nodes = num_nodes
-        if num_nodes == 0:
-            self.alert.set_message("Ingrese un valor distinto a 0.")
-            self.alert.show()
-        else:
-            self.ui.stackedWidget.setCurrentWidget(self.ui.infonode_page)
+        self.ui.stackedWidget.setCurrentWidget(self.ui.infonode_page)
 
     def set_name_nodes(self, name_node):
         validate = re.match('\w+', name_node, re.I)
@@ -82,10 +79,9 @@ class FormWindow(QMainWindow):
             self.alert.set_message("Ingrese el nombre del nodo.")
             self.alert.show()
         elif len(self.nodes) <= self.number_nodes and name_node not in self.nodes:
-            self.nodes.append(name_node)
             self.ui.namenode.setText("")
+            self.nodes.append(name_node)
             self.ui.list_namenode.addItem(name_node)
-            self.ui.label_nodes.setText("V = " + str(self.nodes))
         elif name_node in self.nodes:
             self.alert.set_message("El nodo '" + name_node + "' ya fue ingresado.")
             self.alert.show()
@@ -97,7 +93,7 @@ class FormWindow(QMainWindow):
             self.ui.btn_addnamenode.setStyleSheet("background-color: rgb(254, 121, 199);")
         else:
             self.ui.btn_addnamenode.setEnabled(False)
-            self.ui.btn_addnamenode.setStyleSheet("background-color:  rgb(214,101,169);")
+            self.ui.btn_addnamenode.setStyleSheet("background-color:  rgb(98, 114, 164);")
         self.ui.namenode.setFocus()
 
     def validation_next(self):
@@ -105,36 +101,30 @@ class FormWindow(QMainWindow):
             self.alert.set_message("Aún quedan " + str(self.number_nodes - len(self.nodes)) + " nodos por nombrar.")
             self.alert.show()
         else:
+            for name_node in self.nodes:
+                self.ui.originnode.addItem(name_node)
+                self.ui.destinynode.addItem(name_node)
             self.ui.stackedWidget.setCurrentWidget(self.ui.infoedge_page)
 
     def set_edges(self, from_node, to_node, weight):
 
-        validate_from = re.match('\w+', from_node, re.I)
-        validate_to = re.match('\w+', to_node, re.I)
-        if not validate_from or not validate_to or weight == 0:
-            self.alert.set_message("Rellene todos los campos.")
-            self.alert.show()
-        elif from_node in self.nodes and to_node in self.nodes:
-            edge = "( " + str(from_node) + " , " + str(to_node) + " , " + str(weight) + " )"
-            flag = False
-            for item in self.edges:
-                e = item.split()
-                f_node = e[1]
-                t_node = e[3]
-                if from_node == f_node and to_node == t_node:
-                    self.alert.set_message("La arista ya fue ingresada a la lista.")
-                    self.alert.show()
-                    flag = True
-                    break
-            if not flag:
-                self.edges.append(edge)
-                self.ui.list_edges.addItem(edge)
-                self.ui.originnode.setText("")
-                self.ui.destinynode.setText("")
-                self.ui.weight.setValue(0)
-        else:
-            self.alert.set_message("Uno o más nodos no pertenecen a la lista de nodos ingresado.")
-            self.alert.show()
+        edge = "( " + str(from_node) + " , " + str(to_node) + " , " + str(weight) + " )"
+        flag = False
+        for item in self.edges:
+            e = item.split()
+            f_node = e[1]
+            t_node = e[3]
+            if from_node == f_node and to_node == t_node:
+                self.alert.set_message("La arista ya fue ingresada a la lista.")
+                self.alert.show()
+                flag = True
+                break
+
+        if not flag:
+            self.edges.append(edge)
+            self.ui.list_edges.addItem(edge)
+            self.ui.weight.setValue(1)
+
         self.ui.originnode.setFocus()
 
     def open_main_window(self):
@@ -157,3 +147,20 @@ class FormWindow(QMainWindow):
         if len(self.nodes) < self.number_nodes:
             self.ui.btn_addnamenode.setEnabled(True)
             self.ui.btn_addnamenode.setStyleSheet("background-color: rgb(254, 121, 199);")
+
+    def reset_forms(self, page_index):
+        if page_index == 1:
+            self.number_nodes = 0
+            self.ui.stackedWidget.setCurrentWidget(self.ui.welcome_page)
+        elif page_index == 2:
+            self.nodes = []
+            self.ui.list_namenode.clear()
+            self.ui.btn_addnamenode.setEnabled(True)
+            self.ui.btn_addnamenode.setStyleSheet("background-color: rgb(254, 121, 199);")
+            self.ui.stackedWidget.setCurrentWidget(self.ui.graphinfo_page)
+        elif page_index == 3:
+            self.edges = []
+            self.ui.list_edges.clear()
+            self.ui.originnode.clear()
+            self.ui.destinynode.clear()
+            self.ui.stackedWidget.setCurrentWidget(self.ui.infonode_page)

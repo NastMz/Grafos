@@ -275,6 +275,15 @@ font-family: Roboto;
 color: rgb(98, 114, 164);
 }
 
+QComboBox{
+border:none;
+border-radius: 20px;
+font-size: 14px;
+background-color: rgb(56, 58, 89);
+font-family: Roboto;
+color: rgb(98, 114, 164);
+}
+
 QLineEdit{
 border:none;
 border-radius: 20px;
@@ -285,7 +294,7 @@ color: rgb(98, 114, 164);
 }</string>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>3</number>
             </property>
             <widget class="QWidget" name="welcome_page">
              <property name="styleSheet">
@@ -835,7 +844,7 @@ QRadioButton::indicator:unchecked {
                        </font>
                       </property>
                       <property name="text">
-                       <string>¡A continución vamos a construir su grafo!</string>
+                       <string>¡A continuación vamos a construir su grafo!</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignCenter</set>
@@ -1358,7 +1367,7 @@ QRadioButton::indicator:unchecked {
                        </font>
                       </property>
                       <property name="text">
-                       <string>¡A continución vamos a construir su grafo!</string>
+                       <string>¡A continuación vamos a construir su grafo!</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignCenter</set>
@@ -2181,7 +2190,7 @@ QRadioButton::indicator:unchecked {
                        </font>
                       </property>
                       <property name="text">
-                       <string>¡A continución vamos a construir su grafo!</string>
+                       <string>¡A continuación vamos a construir su grafo!</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignCenter</set>
@@ -2273,19 +2282,6 @@ QPushButton:hover{
                           <property name="bottomMargin">
                            <number>0</number>
                           </property>
-                          <item>
-                           <spacer name="verticalSpacer_7">
-                            <property name="orientation">
-                             <enum>Qt::Vertical</enum>
-                            </property>
-                            <property name="sizeHint" stdset="0">
-                             <size>
-                              <width>20</width>
-                              <height>40</height>
-                             </size>
-                            </property>
-                           </spacer>
-                          </item>
                           <item>
                            <widget class="QLabel" name="label2_3">
                             <property name="font">
@@ -2416,14 +2412,7 @@ QPushButton:hover{
                                     </spacer>
                                    </item>
                                    <item>
-                                    <widget class="QLineEdit" name="originnode">
-                                     <property name="text">
-                                      <string/>
-                                     </property>
-                                     <property name="alignment">
-                                      <set>Qt::AlignCenter</set>
-                                     </property>
-                                    </widget>
+                                    <widget class="QComboBox" name="originnode"/>
                                    </item>
                                   </layout>
                                  </widget>
@@ -2469,11 +2458,7 @@ QPushButton:hover{
                                     </spacer>
                                    </item>
                                    <item>
-                                    <widget class="QLineEdit" name="destinynode">
-                                     <property name="alignment">
-                                      <set>Qt::AlignCenter</set>
-                                     </property>
-                                    </widget>
+                                    <widget class="QComboBox" name="destinynode"/>
                                    </item>
                                   </layout>
                                  </widget>
@@ -2584,62 +2569,6 @@ QPushButton:hover{
                                  </spacer>
                                 </item>
                                </layout>
-                              </widget>
-                             </item>
-                            </layout>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QFrame" name="frame_20">
-                            <property name="frameShape">
-                             <enum>QFrame::StyledPanel</enum>
-                            </property>
-                            <property name="frameShadow">
-                             <enum>QFrame::Raised</enum>
-                            </property>
-                            <layout class="QHBoxLayout" name="horizontalLayout_10">
-                             <item>
-                              <widget class="QLabel" name="label_7">
-                               <property name="sizePolicy">
-                                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                                 <horstretch>0</horstretch>
-                                 <verstretch>0</verstretch>
-                                </sizepolicy>
-                               </property>
-                               <property name="font">
-                                <font>
-                                 <family>Roboto Cn</family>
-                                 <pointsize>12</pointsize>
-                                </font>
-                               </property>
-                               <property name="styleSheet">
-                                <string notr="true">color: #fff;</string>
-                               </property>
-                               <property name="text">
-                                <string>Recuerde:</string>
-                               </property>
-                               <property name="alignment">
-                                <set>Qt::AlignCenter</set>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QLabel" name="label_nodes">
-                               <property name="font">
-                                <font>
-                                 <family>Roboto Cn</family>
-                                 <pointsize>12</pointsize>
-                                </font>
-                               </property>
-                               <property name="styleSheet">
-                                <string notr="true">color: #fff;</string>
-                               </property>
-                               <property name="text">
-                                <string/>
-                               </property>
-                               <property name="alignment">
-                                <set>Qt::AlignCenter</set>
-                               </property>
                               </widget>
                              </item>
                             </layout>
