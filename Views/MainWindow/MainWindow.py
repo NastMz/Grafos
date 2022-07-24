@@ -102,6 +102,7 @@ class MainWindow(QMainWindow):
 
     def set_graph_plot(self):
         self.ui.graph_img.addWidget(Canvas(self.graph.draw(), self.graph.is_directed))
+        self.ui.route_img.addWidget(Canvas(self.graph.draw(), self.graph.is_directed))
 
     def set_option_selected(self, index):
 
@@ -135,6 +136,6 @@ class MainWindow(QMainWindow):
             self.ui.route_btn.setStyleSheet(selected_style)
 
     def calculate_short_route(self, from_node, to_node):
-        short_route, weight = self.graph.get_short_route(from_node, to_node)
+        short_route, weight = self.graph.print_shortest_route(from_node, to_node)
         self.ui.route_text.setText(str(short_route))
         self.ui.weight_text.setText(str(weight))

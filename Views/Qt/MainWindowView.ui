@@ -23,7 +23,7 @@
    <string notr="true">QScrollBar:vertical {
 	border: none;
 	background-color: rgb(56, 58, 89);
-	width: 10px;
+	max-width: 10px;
 	margin: 10px 0 10px 0;
 }
 
@@ -35,7 +35,7 @@ QScrollBar::handle:vertical {
 QScrollBar::sub-line:vertical {
 	border: none;
 	background-color: rgb(98, 114, 164);
-	height: 10px;
+	max-height: 10px;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	subcontrol-position: top;
@@ -49,7 +49,7 @@ QScrollBar::sub-line:vertical:hover {
 QScrollBar::add-line:vertical {
 	border: none;
 	background-color: rgb(98, 114, 164);
-	height: 10px;
+	max-height: 10px;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 	subcontrol-position: bottom;
@@ -73,7 +73,7 @@ QScrollBar::add-page:vertical,  QScrollBar::sub-page:vertical{
 QScrollBar:horizontal {
 	border: none;
 	background-color:  rgb(56, 58, 89);
-	height: 10px;
+	max-height: 10px;
 	margin: 0 10px 0 10px;
 }
 
@@ -85,7 +85,7 @@ QScrollBar::handle:horizontal {
 QScrollBar::sub-line:horizontal {
 	border: none;
 	background-color: rgb(98, 114, 164);
-	width: 10px;
+	max-width: 10px;
 	subcontrol-position: left;
 	subcontrol-origin: margin;
 	border-top-left-radius: 5px;
@@ -99,7 +99,7 @@ QScrollBar::sub-line:horizontal:hover {
 QScrollBar::add-line:horizontal {
 	border: none;
 	background-color: rgb(98, 114, 164);
-	width: 10px;
+	max-width: 10px;
 	subcontrol-position: right;
 	subcontrol-origin: margin;
 	border-top-right-radius: 5px;
@@ -1007,24 +1007,35 @@ background-color: rgb(56, 58, 89);</string>
                     <item>
                      <widget class="QFrame" name="route_container">
                       <property name="styleSheet">
-                       <string notr="true">QLineEdit{
-	border:0;
-	font-size: 14px;
-	background-color: rgb(56, 58, 89);
-	font-family: Roboto;
-	color: rgb(254, 121, 199);
+                       <string notr="true">QSpinBox{
+border:none;
+border-radius: 3px;
+font-size: 14px;
+background-color: rgb(56, 58, 89);
+font-family: Roboto;
+color: rgb(98, 114, 164);
+}
+
+QComboBox{
+border:none;
+border-radius: 3px;
+font-size: 14px;
+background-color: rgb(56, 58, 89);
+font-family: Roboto;
+color: rgb(98, 114, 164);
+}
+
+QLineEdit{
+border:none;
+border-radius: 3px;
+font-size: 14px;
+background-color: rgb(56, 58, 89);
+font-family: Roboto;
+color: rgb(98, 114, 164);
 }
 
 QLabel {
 	color: rgb(255, 255, 255);
-}
-
-QComboBox{
-	border:0;
-	font-size: 14px;
-	background-color: rgb(56, 58, 89);
-	font-family: Roboto;
-	color: rgb(254, 121, 199);
 }
 
 QPushButton{
@@ -1511,6 +1522,9 @@ QPushButton:hover{
                                </property>
                                <property name="acceptDrops">
                                 <bool>false</bool>
+                               </property>
+                               <property name="text">
+                                <string/>
                                </property>
                                <property name="alignment">
                                 <set>Qt::AlignCenter</set>

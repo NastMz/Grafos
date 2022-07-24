@@ -268,7 +268,7 @@ QPushButton:hover{
 
 QSpinBox{
 border:none;
-border-radius: 20px;
+border-radius: 3px;
 font-size: 14px;
 background-color: rgb(56, 58, 89);
 font-family: Roboto;
@@ -277,7 +277,7 @@ color: rgb(98, 114, 164);
 
 QComboBox{
 border:none;
-border-radius: 20px;
+border-radius: 3px;
 font-size: 14px;
 background-color: rgb(56, 58, 89);
 font-family: Roboto;
@@ -286,7 +286,7 @@ color: rgb(98, 114, 164);
 
 QLineEdit{
 border:none;
-border-radius: 20px;
+border-radius: 3px;
 font-size: 14px;
 background-color: rgb(56, 58, 89);
 font-family: Roboto;
@@ -1847,6 +1847,9 @@ QPushButton:hover{
                                 </item>
                                 <item>
                                  <widget class="QPushButton" name="remove_btn">
+                                  <property name="cursor">
+                                   <cursorShape>PointingHandCursor</cursorShape>
+                                  </property>
                                   <property name="text">
                                    <string>Quitar</string>
                                   </property>
@@ -2740,6 +2743,9 @@ QPushButton:hover{
                                 </item>
                                 <item>
                                  <widget class="QPushButton" name="remove_btn_2">
+                                  <property name="cursor">
+                                   <cursorShape>PointingHandCursor</cursorShape>
+                                  </property>
                                   <property name="text">
                                    <string>Quitar</string>
                                   </property>

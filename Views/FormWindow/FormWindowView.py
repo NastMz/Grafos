@@ -156,7 +156,7 @@ class FormWindowView(object):
 "\n"
 "QSpinBox{\n"
 "border:none;\n"
-"border-radius: 20px;\n"
+"border-radius: 3px;\n"
 "font-size: 14px;\n"
 "background-color: rgb(56, 58, 89);\n"
 "font-family: Roboto;\n"
@@ -165,7 +165,7 @@ class FormWindowView(object):
 "\n"
 "QComboBox{\n"
 "border:none;\n"
-"border-radius: 20px;\n"
+"border-radius: 3px;\n"
 "font-size: 14px;\n"
 "background-color: rgb(56, 58, 89);\n"
 "font-family: Roboto;\n"
@@ -174,7 +174,7 @@ class FormWindowView(object):
 "\n"
 "QLineEdit{\n"
 "border:none;\n"
-"border-radius: 20px;\n"
+"border-radius: 3px;\n"
 "font-size: 14px;\n"
 "background-color: rgb(56, 58, 89);\n"
 "font-family: Roboto;\n"
@@ -827,6 +827,7 @@ class FormWindowView(object):
         spacerItem31 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout_31.addItem(spacerItem31)
         self.remove_btn = QtWidgets.QPushButton(self.remove_frame)
+        self.remove_btn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.remove_btn.setObjectName("remove_btn")
         self.horizontalLayout_31.addWidget(self.remove_btn)
         spacerItem32 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
@@ -1204,6 +1205,7 @@ class FormWindowView(object):
         spacerItem46 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout_32.addItem(spacerItem46)
         self.remove_btn_2 = QtWidgets.QPushButton(self.remove_frame_2)
+        self.remove_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.remove_btn_2.setObjectName("remove_btn_2")
         self.horizontalLayout_32.addWidget(self.remove_btn_2)
         spacerItem47 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
