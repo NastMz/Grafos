@@ -16,8 +16,8 @@ for i in range(0, len(edges_list)):
 
 G = graph.draw()
 
-from_node = 2
-to_node = 2
+from_node = 0
+to_node = 5
 
 print(nx.dijkstra_path(G, from_node, to_node), nx.dijkstra_path_length(G, from_node, to_node))
 print(graph.print_shortest_route(from_node, to_node))

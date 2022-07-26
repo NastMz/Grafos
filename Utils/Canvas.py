@@ -22,7 +22,8 @@ class Canvas(FigureCanvas):
         else:
             nx.draw_networkx_edges(plot, pos, arrows=False, edge_color='#6272a4')
 
-        nx.draw_networkx_edge_labels(plot, pos, edge_labels=edges_weight, font_color='#383a59', clip_on=False)
+        nx.draw_networkx_edge_labels(plot, pos, edge_labels=edges_weight, font_color='#383a59', clip_on=False,
+                                     font_size=6)
 
         self.ax.set_facecolor('#383a59')
         self.ax.axis('off')

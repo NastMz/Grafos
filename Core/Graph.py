@@ -21,7 +21,7 @@ class Graph:
                 self.nodes[to_node].add_neighbor({"node": from_node, "weight": edge_weight})
 
     def draw(self):
-        G = nx.DiGraph()
+        graph = nx.DiGraph()
         nodes = []
         edges = []
         for node in self.nodes:
@@ -29,16 +29,19 @@ class Graph:
             for neighbor in self.nodes[node].neighbors:
                 edges.append((node, neighbor['node'], neighbor['weight']))
 
-        G.add_nodes_from(nodes)
-        G.add_weighted_edges_from(edges)
+        graph.add_nodes_from(nodes)
+        graph.add_weighted_edges_from(edges)
 
-        return G
+        return graph
 
-    def get_minor(self, neighbors):
+    def get_minor(self, neighbors, to_node):
         minor = None
         if len(neighbors) > 0:
             for neighbor in neighbors:
-                if not self.nodes[neighbor['node']].visited:
+                if neighbor['node'] == to_node:
+                    minor = neighbor
+                    break
+                elif not self.nodes[neighbor['node']].visited:
                     if minor is None or neighbor['weight'] < minor['weight']:
                         minor = neighbor
         return minor
@@ -55,10 +58,8 @@ class Graph:
         end = False
         route_exist = False
 
-        actual_node = from_node
-
         while not end:
-            minor = self.get_minor(neighbors)
+            minor = self.get_minor(neighbors, to_node)
             if minor is not None:
                 counter += 1
                 weight += int(minor['weight'])
