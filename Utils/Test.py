@@ -14,7 +14,7 @@ edges_list = [[2, 0, 12], [0, 6, 15], [6, 3, 15], [0, 5, 56], [6, 5, 65], [6, 4,
 for i in range(0, len(edges_list)):
     graph.add_edge(edges_list[i][0], edges_list[i][1], edges_list[i][2])
 
-G = graph.draw()
+G = graph.create()
 
 from_node = 0
 to_node = 5

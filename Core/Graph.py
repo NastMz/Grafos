@@ -20,7 +20,7 @@ class Graph:
             if not self.is_directed:
                 self.nodes[to_node].add_neighbor({"node": from_node, "weight": edge_weight})
 
-    def draw(self):
+    def create(self):
         graph = nx.DiGraph()
         nodes = []
         edges = []
