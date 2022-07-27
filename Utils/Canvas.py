@@ -13,8 +13,17 @@ class Canvas(FigureCanvas):
         self.plot = graph
         self.is_directed = is_directed
 
-        # pos = nx.circular_layout(graph)
-        pos = nx.spring_layout(graph, seed=len(graph), k=8)
+        flag = False
+        for node in graph.nodes:
+            if (node, node) in graph.edges:
+                flag = True
+                break
+
+        if not flag:
+            pos = nx.circular_layout(graph)
+        else:
+            pos = nx.spring_layout(graph, seed=len(graph), k=8)
+
         edges_weight = nx.get_edge_attributes(graph, 'weight')
 
         nx.draw_networkx_nodes(graph, pos, node_color='#d665a9')
