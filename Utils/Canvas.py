@@ -13,11 +13,12 @@ class Canvas(FigureCanvas):
         self.plot = graph
         self.is_directed = is_directed
 
-        pos = nx.circular_layout(graph)
+        # pos = nx.circular_layout(graph)
+        pos = nx.spring_layout(graph, seed=len(graph), k=8)
         edges_weight = nx.get_edge_attributes(graph, 'weight')
 
         nx.draw_networkx_nodes(graph, pos, node_color='#d665a9')
-        nx.draw_networkx_labels(graph, pos, font_color='#383a59', font_size=10)
+        nx.draw_networkx_labels(graph, pos, font_color='#383a59')
 
         if is_directed:
             nx.draw_networkx_edges(graph, pos, arrows=True, edge_color='#6272a4')
@@ -31,11 +32,10 @@ class Canvas(FigureCanvas):
                 nx.draw(short_path_graph, pos=pos, arrows=True, edge_color='#ffffff', node_color='#fe79c7',
                         width=2)
             else:
-                nx.draw(short_path_graph, pos=pos, arrows=False, edge_color='#ffffff', node_color='#fe79c7',
-                        width=2)
+                nx.draw(short_path_graph, pos=pos, arrows=False, edge_color='#ffffff', node_color='#fe79c7')
 
-        nx.draw_networkx_edge_labels(graph, pos, edge_labels=edges_weight, font_color='#383a59', label_pos=0.8,
-                                     clip_on=False)
+        nx.draw_networkx_edge_labels(graph, pos, edge_labels=edges_weight, font_color='#383a59', label_pos=0.7,
+                                     font_size=8)
 
         self.ax.set_facecolor('#383a59')
         self.ax.axis('off')
