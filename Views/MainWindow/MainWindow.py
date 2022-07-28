@@ -80,7 +80,7 @@ class MainWindow(QMainWindow):
                     if str(neighbor['node']) == str(self.ui.table_widget.horizontalHeaderItem(i).text()):
                         cell = QTableWidgetItem(str(neighbor['weight']))
                         cell.setTextAlignment(Qt.AlignmentFlag.AlignHCenter)
-                        self.ui.table_widget.setItem(i, row, cell)
+                        self.ui.table_widget.setItem(row, i, cell)
 
             # Complete the cells without valor with zero
             for j in range(self.ui.table_widget.columnCount()):
