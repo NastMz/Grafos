@@ -36,13 +36,14 @@ class Graph:
 
     def get_minor(self, neighbors, to_node):
         minor = None
+        print(neighbors)
         if len(neighbors) > 0:
             for neighbor in neighbors:
                 if neighbor['node'] == to_node:
                     minor = neighbor
                     break
                 elif not self.nodes[neighbor['node']].visited:
-                    if minor is None or neighbor['weight'] < minor['weight']:
+                    if minor is None or float(neighbor['weight']) < float(minor['weight']):
                         minor = neighbor
         return minor
 
